@@ -140,17 +140,17 @@
         it('should set the focus-ring attribute when TAB is pressed and focus is received', () => {
           MockInteractions.keyDownOn(document.body, 9);
           focus();
-          expect(customElement.hasAttribute('focus-ring')).to.be.true;
+          expect(customElement.focusRing).to.be.true;
           blur();
-          expect(customElement.hasAttribute('focus-ring')).to.be.false;
+          expect(customElement.focusRing).to.be.false;
         });
 
         it('should set the focus-ring attribute when SHIFT+TAB is pressed and focus is received', () => {
           MockInteractions.keyDownOn(document.body, 9, 'shift');
           focus();
-          expect(customElement.hasAttribute('focus-ring')).to.be.true;
+          expect(customElement.focusRing).to.be.true;
           blur();
-          expect(customElement.hasAttribute('focus-ring')).to.be.false;
+          expect(customElement.focusRing).to.be.false;
         });
 
         it('should refocus the field', (done) => {
@@ -200,11 +200,12 @@
           expect(customElement.focused).to.be.true;
         });
 
-        it('should have focused set', done => {
+        it('should have focused and focus-ring set', done => {
           customElement = fixture('autofocus');
 
           Polymer.Async.animationFrame.run(() => {
             expect(customElement.focused).to.be.true;
+            expect(customElement.focusRing).to.be.true;
             done();
           });
         });

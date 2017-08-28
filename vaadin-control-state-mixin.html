@@ -64,6 +64,16 @@ This program is available under Apache License Version 2.0, available at https:/
         },
 
         /**
+         * True when the element was focused from the keyboard or by autofocus.
+         * A11ycasts: https://youtu.be/ilj2P5-5CjI
+         */
+        focusRing: {
+          type: Boolean,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+
+        /**
          * Stores the previous value of tabindex attribute of the disabled element
          */
         _previousTabIndex: {
@@ -105,7 +115,7 @@ This program is available under Apache License Version 2.0, available at https:/
       if (this.autofocus && !this.focused) {
         window.requestAnimationFrame(() => {
           this._focus();
-          this.setAttribute('focus-ring', '');
+          this._setFocusRing(true);
         });
       }
 
@@ -128,13 +138,7 @@ This program is available under Apache License Version 2.0, available at https:/
     }
 
     _focusedChanged(focused) {
-      // focus-ring is true when the element was focused from the keyboard.
-      // Focus Ring [A11ycasts]: https://youtu.be/ilj2P5-5CjI
-      if (this.focused && this._tabPressed) {
-        this.setAttribute('focus-ring', '');
-      } else {
-        this.removeAttribute('focus-ring');
-      }
+      this._setFocusRing(this.focused && this._tabPressed);
     }
 
     _bodyKeydownListener(e) {
