@@ -86,7 +86,11 @@ This program is available under Apache License Version 2.0, available at https:/
     ready() {
       super.ready();
 
-      this.addEventListener('focus', e => this._focus(e));
+      this.addEventListener('focus', e => {
+        if (this._tabPressed) {
+          this._focus(e);
+        }
+      });
 
       this.addEventListener('blur', () => this._setFocused(false));
 
@@ -151,6 +155,10 @@ This program is available under Apache License Version 2.0, available at https:/
       return this;
     }
 
+    /**
+      * @event vaadin-control-state-mixin-focus
+      * fired after the element got focus.
+      */
     _focus(e) {
       if (this._isShiftTabbing) {
         return;
@@ -158,6 +166,8 @@ This program is available under Apache License Version 2.0, available at https:/
 
       this._setFocused(!this.disabled);
       this.focusElement.focus();
+
+      this.dispatchEvent(new CustomEvent('vaadin-control-state-mixin-focus', {bubbles: true, detail: {sourceEvent: e}}));
     }
 
     /**
