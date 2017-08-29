@@ -208,6 +208,14 @@
             done();
           });
         });
+
+        it('should fire vaadin-control-state-mixin-focus event once on click', done => {
+          var focusHandler = () => done();
+
+          customElement.addEventListener('vaadin-control-state-mixin-focus', focusHandler, false);
+          customElement.dispatchEvent(new CustomEvent('click', {bubbles: true, composed: true}));
+          customElement.removeEventListener('vaadin-control-state-mixin-focus', focusHandler, false);
+        });
       });
     });
   </script>
