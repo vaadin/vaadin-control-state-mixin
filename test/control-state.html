@@ -200,7 +200,8 @@
           expect(customElement.focused).to.be.false;
         });
 
-        it('should set focused attribute on host mousedown', () => {
+        it('should focus the element on host mousedown', () => {
+          // In real environment `mousedown` event will be followed by `focusin`
           customElement.dispatchEvent(new CustomEvent('mousedown', {bubbles: true, composed: true}));
           focusElement.dispatchEvent(new CustomEvent('focusin', {composed: true, bubbles: true}));
           expect(customElement.focused).to.be.true;
