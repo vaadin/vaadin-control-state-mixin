@@ -180,8 +180,10 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     focus() {
-      this.focusElement.focus();
-      this._setFocused(true);
+      if (!this.disabled) {
+        this.focusElement.focus();
+        this._setFocused(true);
+      }
     }
 
     /**
