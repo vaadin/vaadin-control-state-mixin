@@ -52,6 +52,9 @@ This program is available under Apache License Version 2.0, available at https:/
           type: Boolean
         },
 
+        /* @deprecated will be removed in next major version */
+        focused: Boolean,
+
         /**
          * Stores the previous value of tabindex attribute of the disabled element
          */
@@ -152,6 +155,9 @@ This program is available under Apache License Version 2.0, available at https:/
     }
 
     _setFocused(status) {
+      /* @deprecated */
+      this.focused = status;
+
       if (status) {
         this.setAttribute('focused', '');
         this._tabPressed && this.setAttribute('focus-ring', '');
