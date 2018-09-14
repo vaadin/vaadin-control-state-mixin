@@ -25,6 +25,11 @@
   ],
   "devDependencies": {
     "iron-test-helpers": "^2.0.0",
+    "vaadin-button": "^2.1.0",
+    "vaadin-text-field": "^2.1.2",
+    "vaadin-combo-box": "^4.1.0",
+    "vaadin-checkbox": "^2.2.1",
+    "vaadin-radio-button": "^1.1.1",
     "web-component-tester": "^6.1.5",
     "webcomponentsjs": "^1.0.0"
   },
