@@ -227,7 +227,7 @@ This program is available under Apache License Version 2.0, available at https:/
     /**
      * Any element extending this mixin is required to implement this getter.
      * It returns the actual focusable element in the component.
-     * @return {HTMLElement}
+     * @return {HTMLElement | Element | null | undefined}
      */
     get focusElement() {
       window.console.warn(`Please implement the 'focusElement' property in <${this.localName}>`);
@@ -238,7 +238,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     _focus() {
-      if (this._isShiftTabbing) {
+      if (!this.focusElement || this._isShiftTabbing) {
         return;
       }
 
@@ -265,6 +265,9 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     blur() {
+      if (!this.focusElement) {
+        return;
+      }
       this.focusElement.blur();
       this._setFocused(false);
     }
