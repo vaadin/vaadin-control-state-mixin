@@ -231,7 +231,6 @@ This program is available under Apache License Version 2.0, available at https:/
      */
     get focusElement() {
       window.console.warn(`Please implement the 'focusElement' property in <${this.localName}>`);
-      // @ts-ignore
       return this;
     }
 
@@ -239,7 +238,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     _focus() {
-      if (!(this.focusElement instanceof HTMLElement) || this._isShiftTabbing) {
+      if (!this.focusElement || this._isShiftTabbing) {
         return;
       }
 
@@ -252,7 +251,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     focus() {
-      if (!(this.focusElement instanceof HTMLElement) || this.disabled) {
+      if (!this.focusElement || this.disabled) {
         return;
       }
 
@@ -266,7 +265,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     blur() {
-      if (!(this.focusElement instanceof HTMLElement)) {
+      if (!this.focusElement) {
         return;
       }
       this.focusElement.blur();
@@ -278,7 +277,6 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     _disabledChanged(disabled) {
-      // @ts-ignore
       this.focusElement.disabled = disabled;
       if (disabled) {
         this.blur();
@@ -299,7 +297,6 @@ This program is available under Apache License Version 2.0, available at https:/
      */
     _tabindexChanged(tabindex) {
       if (tabindex !== undefined) {
-        // @ts-ignore
         this.focusElement.tabIndex = tabindex;
       }
 
