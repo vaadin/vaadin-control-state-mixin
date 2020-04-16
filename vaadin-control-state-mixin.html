@@ -90,7 +90,7 @@ This program is available under Apache License Version 2.0, available at https:/
     ready() {
       this.addEventListener('focusin', e => {
         if (e.composedPath()[0] === this) {
-          this._focus(e);
+          this._focus();
         } else if (e.composedPath().indexOf(this.focusElement) !== -1 && !this.disabled) {
           this._setFocused(true);
         }
@@ -139,7 +139,7 @@ This program is available under Apache License Version 2.0, available at https:/
               && this.nextSibling) {
               const fakeTarget = document.createElement('input');
               fakeTarget.style.position = 'absolute';
-              fakeTarget.style.opacity = 0;
+              fakeTarget.style.opacity = '0';
               fakeTarget.tabIndex = this.tabIndex;
 
               this.parentNode.insertBefore(fakeTarget, this.nextSibling);
@@ -227,10 +227,11 @@ This program is available under Apache License Version 2.0, available at https:/
     /**
      * Any element extending this mixin is required to implement this getter.
      * It returns the actual focusable element in the component.
-     * @return {HTMLElement | Element | null | undefined}
+     * @return {Element | null | undefined}
      */
     get focusElement() {
       window.console.warn(`Please implement the 'focusElement' property in <${this.localName}>`);
+      // @ts-ignore
       return this;
     }
 
@@ -238,7 +239,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     _focus() {
-      if (!this.focusElement || this._isShiftTabbing) {
+      if (!(this.focusElement instanceof HTMLElement) || this._isShiftTabbing) {
         return;
       }
 
@@ -251,7 +252,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     focus() {
-      if (!this.focusElement || this.disabled) {
+      if (!(this.focusElement instanceof HTMLElement) || this.disabled) {
         return;
       }
 
@@ -265,7 +266,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     blur() {
-      if (!this.focusElement) {
+      if (!(this.focusElement instanceof HTMLElement)) {
         return;
       }
       this.focusElement.blur();
@@ -277,6 +278,7 @@ This program is available under Apache License Version 2.0, available at https:/
      * @private
      */
     _disabledChanged(disabled) {
+      // @ts-ignore
       this.focusElement.disabled = disabled;
       if (disabled) {
         this.blur();
@@ -297,6 +299,7 @@ This program is available under Apache License Version 2.0, available at https:/
      */
     _tabindexChanged(tabindex) {
       if (tabindex !== undefined) {
+        // @ts-ignore
         this.focusElement.tabIndex = tabindex;
       }
 
