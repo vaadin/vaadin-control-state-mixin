@@ -138,7 +138,7 @@
         });
       });
 
-      describe('_tabPressed and focus-ring', () => {
+      describe('_isMouseDown and focus-ring', () => {
         var focusin = () => {
           focusElement.dispatchEvent(new CustomEvent('focusin', {composed: true, bubbles: true}));
         };
@@ -147,18 +147,18 @@
           focusElement.dispatchEvent(new CustomEvent('focusout', {composed: true, bubbles: true}));
         };
 
-        it('should set and unset _tabPressed when press TAB', () => {
+        it('_isMouseDown should be false when press TAB', () => {
           MockInteractions.keyDownOn(document.body, 9);
-          expect(customElement._tabPressed).to.be.true;
+          expect(customElement._isMouseDown).to.be.false;
           MockInteractions.keyUpOn(document.body, 9);
-          expect(customElement._tabPressed).to.be.false;
+          expect(customElement._isMouseDown).to.be.false;
         });
 
-        it('should set and unset _tabPressed when press SHIFT+TAB', () => {
+        it('_isMouseDown should be false when press SHIFT+TAB', () => {
           MockInteractions.keyDownOn(document.body, 9, 'shift');
-          expect(customElement._tabPressed).to.be.true;
+          expect(customElement._isMouseDown).to.be.false;
           MockInteractions.keyUpOn(document.body, 9, 'shift');
-          expect(customElement._tabPressed).to.be.false;
+          expect(customElement._isMouseDown).to.be.false;
         });
 
         it('should set _isShiftTabbing when pressing shift-tab', () => {
@@ -177,13 +177,6 @@
           });
           customElement.dispatchEvent(evt);
           expect(customElement._isShiftTabbing).not.to.be.ok;
-        });
-
-        it('should not change _tabPressed on any other key except TAB', () => {
-          MockInteractions.keyDownOn(document.body, 65);
-          expect(customElement._tabPressed).to.be.false;
-          MockInteractions.keyUpOn(document.body, 65);
-          expect(customElement._tabPressed).to.be.false;
         });
 
         it('should set the focus-ring attribute when TAB is pressed and focus is received', () => {

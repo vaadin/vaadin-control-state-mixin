@@ -75,6 +75,14 @@ This program is available under Apache License Version 2.0, available at https:/
 
         _isShiftTabbing: {
           type: Boolean
+        },
+
+        /**
+         * Property used to prevent focus ring when focused with mouse.
+         */
+        _isMouseDown: {
+          type: Boolean,
+          value: false
         }
       };
     }
@@ -143,6 +151,16 @@ This program is available under Apache License Version 2.0, available at https:/
         }
       });
 
+      // #56 Listening mouse events to know when to not add the focus ring
+      this.addEventListener('mousedown', e => {
+        this._isMouseDown = true;
+        const mouseUpListener = () => {
+          this._isMouseDown = false;
+          document.removeEventListener('mouseup', mouseUpListener);
+        };
+        document.addEventListener('mouseup', mouseUpListener);
+      });
+
       if (this.autofocus && !this.disabled) {
         window.requestAnimationFrame(() => {
           this._focus();
@@ -150,9 +168,6 @@ This program is available under Apache License Version 2.0, available at https:/
           this.setAttribute('focus-ring', '');
         });
       }
-
-      this._boundKeydownListener = this._bodyKeydownListener.bind(this);
-      this._boundKeyupListener = this._bodyKeyupListener.bind(this);
     }
 
     /**
@@ -160,9 +175,6 @@ This program is available under Apache License Version 2.0, available at https:/
      */
     connectedCallback() {
       super.connectedCallback();
-
-      document.body.addEventListener('keydown', this._boundKeydownListener, true);
-      document.body.addEventListener('keyup', this._boundKeyupListener, true);
     }
 
     /**
@@ -170,9 +182,6 @@ This program is available under Apache License Version 2.0, available at https:/
      */
     disconnectedCallback() {
       super.disconnectedCallback();
-
-      document.body.removeEventListener('keydown', this._boundKeydownListener, true);
-      document.body.removeEventListener('keyup', this._boundKeyupListener, true);
 
       // in non-Chrome browsers, blur does not fire on the element when it is disconnected.
       // reproducible in `<vaadin-date-picker>` when closing on `Cancel` or `Today` click.
@@ -190,19 +199,11 @@ This program is available under Apache License Version 2.0, available at https:/
 
       // focus-ring is true when the element was focused from the keyboard.
       // Focus Ring [A11ycasts]: https://youtu.be/ilj2P5-5CjI
-      if (focused && this._tabPressed) {
+      if (focused && !this._isMouseDown) {
         this.setAttribute('focus-ring', '');
       } else {
         this.removeAttribute('focus-ring');
       }
-    }
-
-    _bodyKeydownListener(e) {
-      this._tabPressed = e.keyCode === 9;
-    }
-
-    _bodyKeyupListener() {
-      this._tabPressed = false;
     }
 
     /**
