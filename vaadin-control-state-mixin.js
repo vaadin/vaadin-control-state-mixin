@@ -113,51 +113,14 @@ export const ControlStateMixin = superClass => class VaadinControlStateMixin ext
     // input field on iOS after “Done” is pressed.
     super.ready();
 
-    // This fixes the bug in Firefox 61 (https://bugzilla.mozilla.org/show_bug.cgi?id=1472887)
-    // where focusout event does not go out of shady DOM because composed property in the event is not true
-    const ensureEventComposed = e => {
-      if (!e.composed) {
-        e.target.dispatchEvent(new CustomEvent(e.type, {
-          bubbles: true,
-          composed: true,
-          cancelable: false
-        }));
-      }
-    };
-    this.shadowRoot.addEventListener('focusin', ensureEventComposed);
-    this.shadowRoot.addEventListener('focusout', ensureEventComposed);
-
     this.addEventListener('keydown', e => {
-      if (!e.defaultPrevented && e.keyCode === 9) {
-        if (e.shiftKey) {
-          // Flag is checked in _focus event handler.
-          this._isShiftTabbing = true;
-          HTMLElement.prototype.focus.apply(this);
-          this._setFocused(false);
-          // Event handling in IE is asynchronous and the flag is removed asynchronously as well
-          setTimeout(() => this._isShiftTabbing = false, 0);
-        } else {
-          // Workaround for FF63-65 bug that causes the focus to get lost when
-          // blurring a slotted component with focusable shadow root content
-          // https://bugzilla.mozilla.org/show_bug.cgi?id=1528686
-          // TODO: Remove when safe
-          const firefox = window.navigator.userAgent.match(/Firefox\/(\d\d\.\d)/);
-          if (firefox
-            && parseFloat(firefox[1]) >= 63
-            && parseFloat(firefox[1]) < 66
-            && this.parentNode
-            && this.nextSibling) {
-            const fakeTarget = document.createElement('input');
-            fakeTarget.style.position = 'absolute';
-            fakeTarget.style.opacity = '0';
-            fakeTarget.tabIndex = this.tabIndex;
-
-            this.parentNode.insertBefore(fakeTarget, this.nextSibling);
-            fakeTarget.focus();
-            fakeTarget.addEventListener('focusout', () => this.parentNode.removeChild(fakeTarget));
-          }
-        }
-
+      if (!e.defaultPrevented && e.keyCode === 9 && e.shiftKey) {
+        // Flag is checked in _focus event handler.
+        this._isShiftTabbing = true;
+        HTMLElement.prototype.focus.apply(this);
+        this._setFocused(false);
+        // Event handling in IE is asynchronous and the flag is removed asynchronously as well
+        setTimeout(() => this._isShiftTabbing = false, 0);
       }
     });
 
