@@ -25,9 +25,6 @@
   "dependencies": {
     "@polymer/polymer": "^3.0.0"
   },
-  "scripts": {
-    "generate-typings": "gen-typescript-declarations --outDir . --verify"
-  },
   "devDependencies": {
     "@polymer/iron-test-helpers": "^3.0.0",
     "wct-browser-legacy": "^1.0.1",
