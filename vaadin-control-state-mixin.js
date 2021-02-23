@@ -33,7 +33,7 @@ window.addEventListener(
  */
 const TabIndexMixin = superClass => class VaadinTabIndexMixin extends superClass {
   static get properties() {
-    var properties = {
+    return {
       /**
        * Internal property needed to listen to `tabindex` attribute changes.
        *
@@ -47,13 +47,6 @@ const TabIndexMixin = superClass => class VaadinTabIndexMixin extends superClass
         observer: '_tabindexChanged'
       }
     };
-
-    if (window.ShadyDOM) {
-      // ShadyDOM browsers need the `tabIndex` in order to notify when the user changes it programmatically.
-      properties['tabIndex'] = properties.tabindex;
-    }
-
-    return properties;
   }
 };
 
@@ -292,10 +285,6 @@ export const ControlStateMixin = superClass => class VaadinControlStateMixin ext
         this._previousTabIndex = this.tabindex;
       }
       this.tabindex = tabindex = undefined;
-    }
-
-    if (window.ShadyDOM) {
-      this.setProperties({tabIndex: tabindex, tabindex: tabindex});
     }
   }
 
