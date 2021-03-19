@@ -4,6 +4,11 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # vaadin-control-state-mixin
+
+> ⚠️ 　Starting from Vaadin 20, this project has migrated to [`vaadin-web-components`](https://github.com/vaadin/vaadin-web-components/tree/master/packages/vaadin-control-state-mixin) *monorepository*.
+>
+> This repository is used for Vaadin 14 LTS and Vaadin 19.
+
 A mixin which adds `focused` and `focus-ring` states to an element.
 
 ## Running tests in browser
