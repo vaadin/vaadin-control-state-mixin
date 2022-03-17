@@ -109,6 +109,14 @@ This program is available under Apache License Version 2.0, available at https:/
 
     /**
      * @protected
+     * @return {boolean}
+     */
+    get _keyboardActive() {
+      return keyboardActive;
+    }
+
+    /**
+     * @protected
      */
     ready() {
       this.addEventListener('focusin', e => {

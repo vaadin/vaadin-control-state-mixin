@@ -188,6 +188,17 @@
           expect(customElement.hasAttribute('focus-ring')).to.be.false;
         });
 
+        it('should initialize keyboardActive to false', () => {
+          expect(customElement._keyboardActive).to.be.false;
+        });
+
+        it('should update keyboardActive on keydown and mousedown', () => {
+          MockInteractions.keyDownOn(document.body, 9);
+          expect(customElement._keyboardActive).to.be.true;
+          MockInteractions.down(document.body);
+          expect(customElement._keyboardActive).to.be.false;
+        });
+
         it('should refocus the field', (done) => {
           customElement.dispatchEvent(new CustomEvent('focusin'));
           MockInteractions.keyDownOn(customElement, 9, 'shift');
