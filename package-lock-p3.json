@@ -1,12 +1,12 @@
 {
   "name": "@vaadin/vaadin-control-state-mixin",
-  "version": "2.2.4",
+  "version": "2.2.6",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "@vaadin/vaadin-control-state-mixin",
-      "version": "2.2.4",
+      "version": "2.2.6",
       "license": "Apache-2.0",
       "dependencies": {
         "@polymer/polymer": "^3.0.0"
